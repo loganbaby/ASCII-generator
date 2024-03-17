@@ -1,18 +1,25 @@
+"""
+@forked: Mikhail Shunin <shifo3456@gmail.com>
+"""
+
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 
 
 def sort_chars(char_list, font, language):
     if language == "chinese":
-        char_width, char_height = font.getsize("制")
+        mask = font.getmask("制")
     elif language == "korean":
-        char_width, char_height = font.getsize("ㅊ")
+        mask = font.getmask("ㅊ")
     elif language == "japanese":
-        char_width, char_height = font.getsize("あ")
+        mask = font.getmask("あ")
     elif language in ["english", "german", "french", "spanish", "italian", "portuguese", "polish"]:
-        char_width, char_height = font.getsize("A")
+        mask = font.getmask("A")
     elif language == "russian":
-        char_width, char_height = font.getsize("A")
+        mask = font.getmask("А")  # In Russian, "А" is used instead of "A"
+
+    char_width, char_height = mask.size
+
     num_chars = min(len(char_list), 100)
     out_width = char_width * len(char_list)
     out_height = char_height
@@ -115,5 +122,4 @@ def get_data(language, mode):
         return None, None, None, None
     if language != "general":
         char_list = sort_chars(char_list, font, language)
-
     return char_list, font, sample_character, scale

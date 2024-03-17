@@ -1,5 +1,6 @@
 """
 @author: Viet Nguyen <nhviet1009@gmail.com>
+@forked: Mikhail Shunin <shifo3456@gmail.com> 2024.17.03
 """
 import argparse
 import cv2
@@ -41,7 +42,7 @@ def main(opt):
         cell_height = 12
         num_cols = int(width / cell_width)
         num_rows = int(height / cell_height)
-    char_width, char_height = font.getsize(sample_character)
+    char_width, char_height = font.getmask(sample_character).size
     out_width = char_width * num_cols
     out_height = scale * char_height * num_rows
     out_image = Image.new("L", (out_width, out_height), bg_code)
